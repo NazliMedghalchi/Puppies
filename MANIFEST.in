@@ -1,0 +1,3 @@
+graft puppies/templates
+graft puppies/static
+include puppies/schema.sql
