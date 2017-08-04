@@ -1,6 +1,8 @@
 from requests import api
-from sqlalchemy import Column, INTEGER, VARCHAR, DATETIME
-from puppies import db
+# from sqlalchemy import Column, INTEGER, VARCHAR, DATETIME
+from werkzeug.contrib.jsrouting import render_template
+
+from database import db
 
 
 class User(db.Model):
@@ -26,16 +28,15 @@ class User(db.Model):
         api.abort(404, "User {} doesn't exist".format(name, email))
 
     def create(self, name, email, password):
-
         self.id += 1
         self.name = name
         self.email = email
         self.password = password
 
-    def update(self, id, data):
-        todo = self.get(id)
-        todo.update(data)
-        return todo
+    def update(self, id, email):
+        usr = self.get(id)
+        usr.update(email)
+        return usr
 
     def delete(self, id):
         usr = self.get(id)
@@ -51,9 +52,26 @@ class Post(db.Model):
     longitude = db.Column('longitude', db.Unicode(50))
     date_time = db.Column('date_time', db.Unicode(70))
 
-    def __init__(self, like, commenet):
-        self.like += 1
-        self.comment += 1
+    def __init__(self):
+        pass
 
     def __repr__(self):
         return '< Post %r>' % {self.like, self.comment}
+
+
+class Like_Post(db.Model):
+    __tablename__ = 'like_post'
+
+    id = db.Column('id', db.Integer, primary_key=True)
+    user_id = db.Column('user_id', db.Integer)
+    post_id = db.Column('post_id', db.Integer)
+
+    def like(self, user_id, post_id):
+        self.like += 1
+        self.user_id = user_id
+        self.post_id = post_id
+
+    def dislike(self, user_id):
+        user = User.query.filter_by(user_id=user_id).first_or_404()
+        db.session.delete(user)
+        return render_template('show_user.html', user=user)

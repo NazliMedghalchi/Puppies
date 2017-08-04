@@ -4,8 +4,8 @@ app = Flask(__name__)
 app.config['DEBUG'] = True
 app.config['TESTING'] = True
 
+from views import *
 
-import views
 if __name__ == "__main__":
     with app.app_context():
         print app.name

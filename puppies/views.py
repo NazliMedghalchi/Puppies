@@ -1,9 +1,13 @@
 import datetime
+import os
+import uuid
+
 import requests
 
 from flask import render_template
 from flask import request, json, g
 from puppies import app
+from models import User, Post
 
 
 
@@ -34,6 +38,7 @@ def signUp():
 
     # validate the received values
     if name and email and password:
+
         return json.dumps({'html': '<span>All fields good !!</span>'})
     else:
         return json.dumps({'html': '<span>Enter the required fields</span>'})
