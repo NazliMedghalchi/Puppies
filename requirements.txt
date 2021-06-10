@@ -18,7 +18,7 @@ coverage==4.3.4
 cryptography==1.8.1
 cycler==0.10.0
 decorator==4.0.10
-Django==1.10
+Django==2.2.24
 docutils==0.13.1
 entrypoints==0.2.2
 enum34==1.1.6
